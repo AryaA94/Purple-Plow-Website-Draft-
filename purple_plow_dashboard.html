@@ -6,8 +6,9 @@
 <title>Purple Plow — Operator Dashboard</title>
 <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;600;700&family=Syne:wght@400;600;700;800&display=swap" rel="stylesheet">
 <style>
+  /* --- GLOBAL VARIABLES --- */
   :root {
-    --purple: #4F2683;
+    --purple: #4F2683; /* Western Purple */
     --purple-light: #7B3FBF;
     --purple-dim: #2a1445;
     --green: #39FF14;
@@ -37,7 +38,7 @@
     overflow-x: hidden;
   }
 
-  /* Scanline overlay */
+  /* Cool CRT scanline effect I found online - looks good on tablets */
   body::before {
     content: '';
     position: fixed;
@@ -47,7 +48,7 @@
     z-index: 9999;
   }
 
-  /* TOP NAV */
+  /* --- TOP NAV BAR --- */
   nav {
     display: flex;
     align-items: center;
@@ -145,7 +146,8 @@
     color: var(--text);
   }
 
-  /* MAIN LAYOUT */
+  /* --- MAIN LAYOUT --- */
+  /* WARNING: Do not mess with this grid setup, it will break the map layout */
   .layout {
     display: grid;
     grid-template-columns: 280px 1fr 300px;
@@ -154,7 +156,7 @@
     gap: 0;
   }
 
-  /* SIDEBAR LEFT */
+  /* --- SIDEBAR LEFT (Routes & Config) --- */
   .sidebar-left {
     background: var(--surface);
     border-right: 1px solid var(--border);
@@ -176,7 +178,7 @@
     margin-bottom: 12px;
   }
 
-  /* MAP AREA */
+  /* --- MAP AREA (Center) --- */
   .map-area {
     position: relative;
     background: var(--surface2);
@@ -225,7 +227,7 @@
   .tool-btn:hover { border-color: var(--purple-light); color: white; }
   .tool-btn.active { background: var(--purple-dim); border-color: var(--purple-light); color: var(--purple-light); }
 
-  /* CAMPUS MAP SVG */
+  /* CAMPUS MAP SVG (Hardcoded for demo) */
   .campus-map {
     flex: 1;
     position: relative;
@@ -247,19 +249,7 @@
     to { stroke-dashoffset: -24; }
   }
 
-  .robot-dot {
-    animation: robotMove 8s linear infinite;
-  }
-
-  @keyframes robotMove {
-    0% { transform: translate(0, 0); }
-    25% { transform: translate(40px, 80px); }
-    50% { transform: translate(80px, 160px); }
-    75% { transform: translate(40px, 240px); }
-    100% { transform: translate(0, 0); }
-  }
-
-  /* DEPLOY PANEL */
+  /* --- DEPLOY PANEL (Bottom center) --- */
   .deploy-panel {
     padding: 16px;
     border-top: 1px solid var(--border);
@@ -301,6 +291,7 @@
     overflow: hidden;
   }
 
+  /* Hover effect for deploy button */
   .deploy-btn::before {
     content: '';
     position: absolute;
@@ -313,7 +304,7 @@
   .deploy-btn:hover { background: #1f5c1f; box-shadow: 0 0 20px rgba(57,255,20,0.2); }
   .deploy-btn:hover::before { opacity: 1; }
 
-  /* SIDEBAR RIGHT - TELEMETRY */
+  /* --- SIDEBAR RIGHT (Telemetry Data) --- */
   .sidebar-right {
     background: var(--surface);
     border-left: 1px solid var(--border);
@@ -322,7 +313,7 @@
     overflow-y: auto;
   }
 
-  /* GAUGES */
+  /* Dashboard Gauges */
   .gauge-block {
     padding: 14px 16px;
     border-bottom: 1px solid var(--border);
@@ -369,20 +360,7 @@
     position: relative;
   }
 
-  .gauge-fill::after {
-    content: '';
-    position: absolute;
-    right: 0;
-    top: 50%;
-    transform: translateY(-50%);
-    width: 3px;
-    height: 10px;
-    border-radius: 2px;
-    background: white;
-    opacity: 0.8;
-  }
-
-  /* ALERT PANEL */
+  /* ALERT NOTIFICATION PANEL */
   .alert-panel {
     margin: 12px 16px;
     border-radius: 8px;
@@ -455,7 +433,7 @@
 
   .override-btn:hover { background: rgba(255,59,59,0.25); }
 
-  /* ROUTE PROGRESS */
+  /* ROUTE PROGRESS BAR */
   .route-block {
     padding: 14px 16px;
     border-bottom: 1px solid var(--border);
@@ -485,24 +463,7 @@
     to { width: 65%; }
   }
 
-  .route-fill::after {
-    content: '';
-    position: absolute;
-    right: 0;
-    top: 0;
-    bottom: 0;
-    width: 20px;
-    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3));
-    animation: shimmer 2s infinite;
-  }
-
-  @keyframes shimmer {
-    0% { opacity: 0; }
-    50% { opacity: 1; }
-    100% { opacity: 0; }
-  }
-
-  /* OVERRIDE CONSOLE */
+  /* --- OVERRIDE CONSOLE (Hidden by default) --- */
   .override-console {
     position: fixed;
     inset: 0;
@@ -576,7 +537,7 @@
     gap: 0;
   }
 
-  /* CAMERA FEED */
+  /* CAMERA FEED (Left side of modal) */
   .camera-feed {
     padding: 16px;
     border-right: 1px solid var(--border);
@@ -602,16 +563,7 @@
     justify-content: center;
   }
 
-  /* Simulated snowy camera feed */
-  .camera-view::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background:
-      radial-gradient(ellipse at 30% 40%, rgba(100,100,120,0.3) 0%, transparent 60%),
-      radial-gradient(ellipse at 70% 60%, rgba(60,60,80,0.4) 0%, transparent 50%);
-  }
-
+  /* Fake static/noise on the camera feed */
   .camera-noise {
     position: absolute;
     inset: 0;
@@ -632,12 +584,6 @@
     position: relative;
     z-index: 1;
     text-align: center;
-  }
-
-  .camera-icon {
-    font-size: 32px;
-    margin-bottom: 6px;
-    opacity: 0.4;
   }
 
   .camera-text {
@@ -669,7 +615,7 @@
     animation: pulse-red 1s infinite;
   }
 
-  /* JOYSTICK AREA */
+  /* JOYSTICK AREA (Right side of modal) */
   .controls-area {
     padding: 16px;
     display: flex;
@@ -691,27 +637,7 @@
     gap: 12px;
   }
 
-  .joystick {
-    width: 120px;
-    height: 120px;
-    border-radius: 50%;
-    background: var(--surface2);
-    border: 1.5px solid var(--border);
-    position: relative;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-
-  .joystick-ring {
-    width: 100%;
-    height: 100%;
-    border-radius: 50%;
-    position: absolute;
-    border: 1px dashed rgba(79,38,131,0.4);
-  }
-
-  /* D-pad style */
+  /* D-pad style buttons */
   .dpad {
     display: grid;
     grid-template-columns: repeat(3, 36px);
@@ -786,7 +712,7 @@
     border-radius: 3px;
   }
 
-  /* TELEMETRY FEED */
+  /* TELEMETRY TEXT LOG */
   .telem-feed {
     padding: 12px 16px;
     flex: 1;
@@ -804,7 +730,7 @@
   .telem-line .val.warn { color: var(--yellow); }
   .telem-line .val.alert { color: var(--red); }
 
-  /* SYSTEM STATUS BANNER */
+  /* SYSTEM STATUS BANNER (Above Map) */
   .status-banner {
     display: flex;
     align-items: center;
@@ -825,7 +751,6 @@
     color: var(--red);
   }
 
-  /* WAYPOINT MARKERS ON MAP */
   .waypoint {
     animation: waypointPulse 2s infinite;
   }
@@ -835,17 +760,7 @@
     50% { opacity: 1; }
   }
 
-  /* Scrollbar */
-  ::-webkit-scrollbar { width: 4px; }
-  ::-webkit-scrollbar-track { background: transparent; }
-  ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
-
-  .section-divider {
-    height: 1px;
-    background: var(--border);
-    margin: 0 16px;
-  }
-
+  /* Small badges for coordinates */
   .coord-badge {
     display: inline-block;
     background: var(--purple-dim);
@@ -871,7 +786,6 @@
 </head>
 <body>
 
-<!-- NAV -->
 <nav>
   <div class="nav-brand">
     <div class="nav-logo">PP</div>
@@ -888,20 +802,16 @@
   </div>
 </nav>
 
-<!-- ALERT BANNER -->
 <div class="status-banner" id="sysBanner">
   <div class="status-dot"></div>
   SYS: NOMINAL — AUTO SWEEP ACTIVE — ROUTE 62% COMPLETE
 </div>
 
-<!-- MAIN LAYOUT -->
 <div class="layout">
 
-  <!-- SIDEBAR LEFT: Route config -->
   <div class="sidebar-left">
     <div class="sidebar-section">
       <div class="sidebar-label">Active Routes</div>
-
       <div class="route-item">
         <div class="route-icon" style="background:var(--green)"></div>
         <div class="route-name">Main Walkway (UC → SEB)</div>
@@ -956,7 +866,6 @@
     <div class="es-badge">ES1050 — Team 14-Robot — Western Engineering</div>
   </div>
 
-  <!-- MAP CENTER -->
   <div class="map-area">
     <div class="map-header">
       <div class="map-header-title">Western University Campus — Top View</div>
@@ -970,10 +879,7 @@
 
     <div class="campus-map">
       <svg class="map-svg" viewBox="0 0 700 420" xmlns="http://www.w3.org/2000/svg">
-        <!-- Background -->
         <rect width="700" height="420" fill="#0e1a0e"/>
-
-        <!-- Ground texture -->
         <rect width="700" height="420" fill="url(#grass)"/>
         <defs>
           <pattern id="grass" x="0" y="0" width="40" height="40" patternUnits="userSpaceOnUse">
@@ -982,115 +888,53 @@
           </pattern>
         </defs>
 
-        <!-- Buildings -->
         <rect x="40" y="30" width="120" height="80" fill="#1a1a2e" stroke="#2a2a4a" stroke-width="1" rx="2"/>
         <text x="100" y="72" text-anchor="middle" fill="#4a4a7a" font-size="8" font-family="JetBrains Mono">UC</text>
-
         <rect x="220" y="20" width="100" height="70" fill="#1a1a2e" stroke="#2a2a4a" stroke-width="1" rx="2"/>
         <text x="270" y="57" text-anchor="middle" fill="#4a4a7a" font-size="8" font-family="JetBrains Mono">SEB</text>
-
         <rect x="400" y="40" width="90" height="60" fill="#1a1a2e" stroke="#2a2a4a" stroke-width="1" rx="2"/>
         <text x="445" y="72" text-anchor="middle" fill="#4a4a7a" font-size="8" font-family="JetBrains Mono">ALUMNI</text>
-
         <rect x="560" y="30" width="100" height="90" fill="#1a1a2e" stroke="#2a2a4a" stroke-width="1" rx="2"/>
         <text x="610" y="77" text-anchor="middle" fill="#4a4a7a" font-size="8" font-family="JetBrains Mono">PHYSICS</text>
-
         <rect x="50" y="280" width="130" height="90" fill="#1a1a2e" stroke="#2a2a4a" stroke-width="1" rx="2"/>
         <text x="115" y="330" text-anchor="middle" fill="#4a4a7a" font-size="8" font-family="JetBrains Mono">MIDDLESEX</text>
-
         <rect x="280" y="270" width="120" height="80" fill="#1a1a2e" stroke="#2a2a4a" stroke-width="1" rx="2"/>
         <text x="340" y="315" text-anchor="middle" fill="#4a4a7a" font-size="8" font-family="JetBrains Mono">WELDON</text>
-
         <rect x="490" y="260" width="150" height="100" fill="#1a1a2e" stroke="#2a2a4a" stroke-width="1" rx="2"/>
         <text x="565" y="315" text-anchor="middle" fill="#4a4a7a" font-size="8" font-family="JetBrains Mono">NATURAL SCI</text>
 
-        <!-- Sidewalks -->
         <rect x="160" y="50" width="60" height="12" fill="#2a2a3a" rx="2"/>
         <rect x="160" y="62" width="60" height="4" fill="#333345" rx="1" opacity="0.5"/>
-
         <rect x="320" y="55" width="80" height="12" fill="#2a2a3a" rx="2"/>
         <rect x="490" y="55" width="70" height="12" fill="#2a2a3a" rx="2"/>
 
-        <!-- Main highlighted route (the active path) -->
-        <polyline
-          points="100,110 100,140 200,140 200,180 350,180 350,140 450,140 450,100"
-          fill="none"
-          stroke="#4F2683"
-          stroke-width="10"
-          stroke-linecap="round"
-          stroke-linejoin="round"
-          opacity="0.25"
-        />
-        <!-- Drawn path overlay -->
-        <polyline
-          class="robot-path"
-          points="100,110 100,140 200,140 200,180 350,180 350,140 450,140 450,100"
-          fill="none"
-          stroke="#7B3FBF"
-          stroke-width="3"
-          stroke-linecap="round"
-          stroke-linejoin="round"
-          stroke-dasharray="8 4"
-        />
+        <polyline points="100,110 100,140 200,140 200,180 350,180 350,140 450,140 450,100" fill="none" stroke="#4F2683" stroke-width="10" stroke-linecap="round" stroke-linejoin="round" opacity="0.25"/>
+        <polyline class="robot-path" points="100,110 100,140 200,140 200,180 350,180 350,140 450,140 450,100" fill="none" stroke="#7B3FBF" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="8 4"/>
 
-        <!-- Secondary route queued -->
-        <polyline
-          points="100,260 200,260 280,260"
-          fill="none"
-          stroke="#FFD60A"
-          stroke-width="2"
-          stroke-linecap="round"
-          opacity="0.4"
-          stroke-dasharray="5 5"
-        />
+        <polyline points="100,260 200,260 280,260" fill="none" stroke="#FFD60A" stroke-width="2" stroke-linecap="round" opacity="0.4" stroke-dasharray="5 5"/>
 
-        <!-- Waypoint markers -->
         <circle class="waypoint" cx="100" cy="110" r="6" fill="none" stroke="#7B3FBF" stroke-width="1.5"/>
         <circle cx="100" cy="110" r="3" fill="#7B3FBF"/>
-
         <circle class="waypoint" cx="200" cy="180" r="6" fill="none" stroke="#7B3FBF" stroke-width="1.5" style="animation-delay:0.5s"/>
         <circle cx="200" cy="180" r="3" fill="#7B3FBF"/>
-
         <circle class="waypoint" cx="350" cy="180" r="6" fill="none" stroke="#7B3FBF" stroke-width="1.5" style="animation-delay:1s"/>
         <circle cx="350" cy="180" r="3" fill="#7B3FBF"/>
-
         <circle class="waypoint" cx="450" cy="100" r="6" fill="none" stroke="#7B3FBF" stroke-width="1.5" style="animation-delay:1.5s"/>
         <circle cx="450" cy="100" r="3" fill="#7B3FBF"/>
 
-        <!-- Snow coverage overlay on path -->
-        <polyline
-          points="100,110 100,140 200,140"
-          fill="none"
-          stroke="#aaddff"
-          stroke-width="8"
-          stroke-linecap="round"
-          opacity="0.07"
-        />
+        <polyline points="100,110 100,140 200,140" fill="none" stroke="#aaddff" stroke-width="8" stroke-linecap="round" opacity="0.07"/>
 
-        <!-- ROBOT (animated along path) -->
         <g id="robot">
-          <animateMotion dur="12s" repeatCount="indefinite"
-            path="M100,110 L100,140 L200,140 L200,180 L350,180 L350,140 L450,140 L450,100"/>
+          <animateMotion dur="12s" repeatCount="indefinite" path="M100,110 L100,140 L200,140 L200,180 L350,180 L350,140 L450,140 L450,100"/>
           <rect x="-9" y="-9" width="18" height="18" rx="3" fill="#111" stroke="#39FF14" stroke-width="1.5"/>
           <rect x="-5" y="-5" width="10" height="10" rx="2" fill="#1a4d1a"/>
           <circle cx="0" cy="0" r="3" fill="#39FF14" opacity="0.9"/>
-          <!-- Plow front -->
           <rect x="-9" y="-12" width="18" height="4" rx="1" fill="#39FF14" opacity="0.6"/>
-          <!-- Glow -->
           <circle cx="0" cy="0" r="14" fill="rgba(57,255,20,0.06)"/>
         </g>
 
-        <!-- Salted trail effect -->
-        <polyline
-          points="100,110 100,140 200,140 200,165"
-          fill="none"
-          stroke="#aaddff"
-          stroke-width="8"
-          stroke-linecap="round"
-          opacity="0.15"
-        />
+        <polyline points="100,110 100,140 200,140 200,165" fill="none" stroke="#aaddff" stroke-width="8" stroke-linecap="round" opacity="0.15"/>
 
-        <!-- Compass -->
         <g transform="translate(660,370)">
           <circle r="16" fill="#111118" stroke="#2a2a4a" stroke-width="1"/>
           <text x="0" y="-6" text-anchor="middle" fill="#555" font-size="7" font-family="JetBrains Mono">N</text>
@@ -1099,8 +943,6 @@
           <text x="9" y="3" text-anchor="middle" fill="#555" font-size="7" font-family="JetBrains Mono">E</text>
           <line x1="0" y1="-3" x2="0" y2="-10" stroke="#7B3FBF" stroke-width="1.5" stroke-linecap="round"/>
         </g>
-
-        <!-- Scale bar -->
         <g transform="translate(30,400)">
           <line x1="0" y1="0" x2="60" y2="0" stroke="#333" stroke-width="1"/>
           <line x1="0" y1="-3" x2="0" y2="3" stroke="#333" stroke-width="1"/>
@@ -1123,24 +965,21 @@
     </div>
   </div>
 
-  <!-- SIDEBAR RIGHT: Telemetry -->
   <div class="sidebar-right">
     <div style="padding:12px 16px;border-bottom:1px solid var(--border)">
       <div class="sidebar-label">Live Diagnostics</div>
     </div>
 
-    <!-- Battery -->
     <div class="gauge-block">
       <div class="gauge-top">
         <div class="gauge-name">12V SLA Battery</div>
-        <div><span class="gauge-value" style="color:#5dff5d">87.3</span><span class="gauge-unit">%</span></div>
+        <div><span class="gauge-value" id="batValue" style="color:#5dff5d">87.3</span><span class="gauge-unit">%</span></div>
       </div>
       <div class="gauge-bar">
-        <div class="gauge-fill" style="width:87.3%;background:linear-gradient(90deg,#1a5c1a,#39FF14)"></div>
+        <div class="gauge-fill" id="batBar" style="width:87.3%;background:linear-gradient(90deg,#1a5c1a,#39FF14)"></div>
       </div>
     </div>
 
-    <!-- Core Temp -->
     <div class="gauge-block">
       <div class="gauge-top">
         <div class="gauge-name">Core Temperature</div>
@@ -1151,7 +990,6 @@
       </div>
     </div>
 
-    <!-- Hopper Salt -->
     <div class="gauge-block">
       <div class="gauge-top">
         <div class="gauge-name">Salt Hopper</div>
@@ -1162,7 +1000,6 @@
       </div>
     </div>
 
-    <!-- Route progress -->
     <div class="route-block">
       <div class="gauge-top">
         <div class="gauge-name">Route Progress</div>
@@ -1174,7 +1011,6 @@
       <div style="font-size:10px;color:var(--text-dim);margin-top:6px">Est. return: ~18 min</div>
     </div>
 
-    <!-- Alert -->
     <div style="padding:0 0 4px 0">
       <div class="alert-panel">
         <div class="alert-header">
@@ -1188,7 +1024,6 @@
       </div>
     </div>
 
-    <!-- Telem feed -->
     <div class="telem-feed">
       <div class="sidebar-label" style="margin-bottom:8px">System Log</div>
       <div class="telem-line"><span class="key">[08:42:11]</span> SYS: NOMINAL - AUTO SWEEP</div>
@@ -1201,7 +1036,6 @@
   </div>
 </div>
 
-<!-- OVERRIDE CONSOLE MODAL -->
 <div class="override-console" id="overrideConsole">
   <div class="console-panel">
     <div class="console-header">
@@ -1209,22 +1043,18 @@
       <div class="console-close" onclick="closeOverride()">✕</div>
     </div>
     <div class="console-body">
+      
       <div class="camera-feed">
         <div class="camera-label">Onboard Raspberry Pi Camera Feed</div>
         <div class="camera-view">
           <div class="camera-noise"></div>
           <div class="camera-rec"><div class="rec-dot"></div>REC LIVE</div>
-          <!-- Simulated scene -->
           <svg viewBox="0 0 240 150" style="position:absolute;inset:0;width:100%;height:100%;opacity:0.5">
             <rect width="240" height="150" fill="#0a0f0a"/>
-            <!-- Ground -->
             <rect x="0" y="100" width="240" height="50" fill="#1a1a1a"/>
-            <!-- Sidewalk -->
             <rect x="40" y="85" width="160" height="65" fill="#222"/>
-            <!-- Obstacle (person legs) -->
             <rect x="105" y="60" width="12" height="50" fill="#333" rx="3"/>
             <rect x="125" y="60" width="12" height="50" fill="#333" rx="3"/>
-            <!-- Snow -->
             <rect x="0" y="0" width="240" height="100" fill="#0d170d" opacity="0.8"/>
             <circle cx="50" cy="30" r="2" fill="white" opacity="0.3"/>
             <circle cx="120" cy="20" r="1.5" fill="white" opacity="0.4"/>
@@ -1259,12 +1089,9 @@
           </div>
         </div>
         <div style="font-size:10px;color:var(--text-dim);text-align:center">Speed: 0.5 m/s (Override)</div>
-
         <div style="height:1px;background:var(--border);margin:4px 0"></div>
-
         <div class="controls-label">Mission Abort</div>
         <button class="rtb-btn" onclick="closeOverride()">↩ Return to Base</button>
-
         <div style="font-size:9px;color:var(--text-dim);line-height:1.7;margin-top:4px">
           Robot will navigate back to<br>base station autonomously.<br>Mission data will be saved.
         </div>
@@ -1274,31 +1101,45 @@
 </div>
 
 <script>
+  // Simple JS to handle the UI interactions for the demo
+
   function setTab(el, tab) {
+    console.log("Tab switched to: " + tab); // debug
     document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
     el.classList.add('active');
-    if (tab === 'override') openOverride();
+    
+    // Quick hack: just open the override modal if they click the override tab
+    if (tab === 'override') {
+      openOverride();
+    }
   }
 
   function openOverride() {
+    console.log("CRITICAL: Opening override console!");
     document.getElementById('overrideConsole').classList.add('open');
     document.getElementById('sysBanner').className = 'status-banner red';
     document.getElementById('sysBanner').innerHTML = '<div class="alert-dot"></div> SYS: WAITING FOR CLEARANCE — OPERATOR INTERVENTION REQUIRED';
   }
 
   function closeOverride() {
+    console.log("Closing override, returning to nominal operations");
     document.getElementById('overrideConsole').classList.remove('open');
     document.getElementById('sysBanner').className = 'status-banner';
     document.getElementById('sysBanner').innerHTML = '<div class="status-dot"></div> SYS: NOMINAL — AUTO SWEEP ACTIVE — ROUTE 62% COMPLETE';
+    
+    // reset tabs back to route
     document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
     document.querySelectorAll('.nav-tab')[0].classList.add('active');
   }
 
   function flashDeploy(btn) {
+    console.log("Sending deploy coordinates to Mini-Computer...");
     btn.textContent = '✓ Deployed';
     btn.style.background = '#0d3d0d';
     btn.style.borderColor = '#39FF14';
     btn.style.color = '#39FF14';
+    
+    // reset button after 2 secs
     setTimeout(() => {
       btn.textContent = '⬤ Deploy';
       btn.style.background = '#1a4d1a';
@@ -1307,13 +1148,18 @@
     }, 2000);
   }
 
-  // Simulate live telemetry updates
+  // Faking the battery drain animation so the UI looks "alive" during the demo
   setInterval(() => {
-    const battery = document.querySelectorAll('.gauge-value')[0];
-    if (battery) {
+    const battery = document.getElementById('batValue');
+    const bar = document.getElementById('batBar');
+    if (battery && bar) {
       let val = parseFloat(battery.textContent);
-      val = Math.max(80, val - 0.05);
-      battery.textContent = val.toFixed(1);
+      // slowly drain down to 80% then stop
+      if (val > 80) {
+        val = val - 0.05;
+        battery.textContent = val.toFixed(1);
+        bar.style.width = val + '%';
+      }
     }
   }, 3000);
 </script>
